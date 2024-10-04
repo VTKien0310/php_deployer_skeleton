@@ -23,16 +23,40 @@ Ensure the followings are installed on your local machine:
 
 ### API
 
-Staging:
+#### Development:
+
+```shell
+dep -f api/development/deploy.php deploy
+```
+
+or
+
+```shell
+sh commands/deploy-api-dev.sh
+```
+
+#### Staging:
 
 ```shell
 dep -f api/staging/deploy.php deploy
 ```
 
-Production:
+or
+
+```shell
+sh commands/deploy-api-stg.sh
+```
+
+#### Production:
 
 ```shell
 dep -f api/production/deploy.php deploy
+```
+
+or
+
+```shell
+sh commands/deploy-api-prod.sh
 ```
 
 ### SPA
