@@ -1,3 +1,11 @@
+## Description
+
+PHP Deployer setup as a standalone project.
+This project allows for easy and automatic deployment of:
+
+- Laravel application
+- Single page application such as Vue, React, and Angular
+
 ## Project specification
 
 - PHP Deployer 7
