@@ -11,10 +11,8 @@ require 'recipe/laravel.php';
  */
 after('deploy:vendors', 'env:upload');
 after('deploy:vendors', 'cloudfront_key:upload');
-after('deploy:success', function () {
-    artisan('optimize');
-    run('sudo systemctl reload php-fpm');
-});
+after('deploy:success', 'service:reload');
+after('deploy:success', 'worker:restart');
 after('deploy:failed', 'deploy:unlock');
 
 /*
@@ -49,3 +47,14 @@ task('cloudfront_key:upload', function () {
 
     upload($localKeyFile, $remoteKeyFile);
 })->desc('Upload CloudFront private key file based on stage');
+
+task('service:reload', function () {
+    run('sudo systemctl reload php-fpm');
+    run('sudo systemctl reload nginx');
+})->desc('Reload PHP-FPM and Nginx');
+
+task('worker:restart', function () {
+    artisan('optimize')();
+    artisan('queue:restart', ['showOutput'])();
+    run('sudo systemctl restart laravel-scheduler.timer');
+})->once()->desc('Restart queue and schedule workers');
